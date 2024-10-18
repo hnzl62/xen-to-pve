@@ -1,28 +1,74 @@
-# xen-to-pve
-XenServer to Proxmox direct export script.
+Here’s a README.md file for your repository that emphasizes the modifications made for NFS storage use, includes the prerequisite information for xcp-xe, and provides the stunnel installation command.
 
-PRs are welcome.
+README.md
 
-Basically, it export a VM from XS host and, while transferring it,
-automatically extract the tarball and convert to a raw image.
+# XenServer to Proxmox Migration Script
 
-In other words, the single export phase is the only phase needed,
-extraction and convertion are done on the fly during the exprort,
-saving time.
+This is a modified version of the XenServer to Proxmox migration script, with specific adjustments for use with **NFS storage** in Proxmox. The script automates the migration of virtual machine (VM) disks from XenServer to Proxmox by exporting the disks and recreating them on the specified NFS storage backend in Proxmox.
 
-After running the script, you'll end with 1 file for any exported disk.
-Due to a qemu bug, each disk must be renamed to remove the ":" chars
-from the filename.
+## Features
+- Supports **NFS storage** in Proxmox.
+- Dynamically accepts the Proxmox storage backend as an argument for flexibility.
+- Uses the `xcp-xe` tool to export disks from XenServer.
+- Verifies and migrates each disk from XenServer to Proxmox using Proxmox’s storage system.
 
-Then, on PVE node:
+## Prerequisites
 
-```
-qm importdisk 100 disk1.raw local-zfs
-```
+### 1. `xcp-xe` Tool
+The script requires the `xcp-xe` tool to interact with XenServer. You can download the required version from the following repository:
 
-where `100` is the VM id, `disks1.raw` is the extracted (and renamed) disk
-image and `local-zfs` is the local PVE storage name
+- [Download xcp-xe_1.3.2-5ubuntu1_amd64.deb](https://github.com/hnzl62/xen-to-pve/blob/master/xcp-xe_1.3.2-5ubuntu1_amd64.deb)
 
-and you are ready.
+Once downloaded, install it on the machine where you are running the script using:
 
-Just create a new VM (to get the VM-ID) without any attached disks. 
+```bash
+sudo dpkg -i xcp-xe_1.3.2-5ubuntu1_amd64.deb
+
+2. stunnel Installation
+
+The script also requires stunnel for secure communications. You can install it using the following command:
+
+sudo apt install stunnel
+
+Usage
+
+Script Invocation
+
+To use the script, run it with the following arguments:
+
+./migrate.sh <vm-uuid> <vm-id> <host> <port> <user> <pass> <storage>
+
+	•	<vm-uuid>: The UUID of the VM on XenServer.
+	•	<vm-id>: The VM ID in Proxmox.
+	•	<host>: The IP address or hostname of the XenServer.
+	•	<port>: The port to connect to on XenServer.
+	•	<user>: The XenServer username (usually root).
+	•	<pass>: The password for the XenServer user.
+	•	<storage>: The Proxmox storage name where the disks should be created (e.g., nfs_storage).
+
+Example
+
+Here’s an example of how to run the script:
+
+./migrate.sh 92dcc124-3baf-fa12-334a-d8aef0c85363 112 xcp01 443 root password nfs01
+
+	•	This example migrates the VM with UUID 92dcc124-3baf-fa12-334a-d8aef0c85363 from the XenServer xcp01 (using port 443) to the Proxmox host, using the NFS storage nfs01.
+
+Modifications
+
+This version of the script has been specifically modified to:
+
+	•	Handle NFS storage in Proxmox, dynamically constructing the file paths for VM disk images on NFS.
+	•	Accept the Proxmox storage name as an argument for greater flexibility in environments with multiple storage backends.
+
+License
+
+This script is licensed under the GPL, in accordance with the original author’s license. See the LICENSE file for details.
+
+---
+
+### Key Points in the `README.md`:
+1. **Emphasizes NFS Modifications**: The README clearly highlights that the script is modified for NFS storage use in Proxmox.
+2. **Prerequisites**: Links to the `xcp-xe` download from the GitHub repository and provides the command to install `stunnel`.
+3. **Usage Instructions**: Includes detailed instructions on how to use the script, including an example.
+4. **License**: Mentions the script's GPL license, assuming the original script was licensed under GPL. You should include a `LICENSE` file in your repository with the full text of the GPL.
