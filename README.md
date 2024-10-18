@@ -1,27 +1,24 @@
-Here’s a README.md file for your repository that emphasizes the modifications made for NFS storage use, includes the prerequisite information for xcp-xe, and provides the stunnel installation command.
+XenServer to Proxmox Migration Script
 
-README.md
+This is a modified version of the XenServer to Proxmox migration script, with specific adjustments for use with NFS storage in Proxmox. The script automates the migration of virtual machine (VM) disks from XenServer to Proxmox by exporting the disks and recreating them on the specified NFS storage backend in Proxmox.
 
-# XenServer to Proxmox Migration Script
+Features
 
-This is a modified version of the XenServer to Proxmox migration script, with specific adjustments for use with **NFS storage** in Proxmox. The script automates the migration of virtual machine (VM) disks from XenServer to Proxmox by exporting the disks and recreating them on the specified NFS storage backend in Proxmox.
+	•	Supports NFS storage in Proxmox.
+	•	Dynamically accepts the Proxmox storage backend as an argument for flexibility.
+	•	Uses the xcp-xe tool to export disks from XenServer.
+	•	Verifies and migrates each disk from XenServer to Proxmox using Proxmox’s storage system.
 
-## Features
-- Supports **NFS storage** in Proxmox.
-- Dynamically accepts the Proxmox storage backend as an argument for flexibility.
-- Uses the `xcp-xe` tool to export disks from XenServer.
-- Verifies and migrates each disk from XenServer to Proxmox using Proxmox’s storage system.
+Prerequisites
 
-## Prerequisites
+1. xcp-xe Tool
 
-### 1. `xcp-xe` Tool
-The script requires the `xcp-xe` tool to interact with XenServer. You can download the required version from the following repository:
+The script requires the xcp-xe tool to interact with XenServer. You can download the required version from the following repository:
 
-- [Download xcp-xe_1.3.2-5ubuntu1_amd64.deb](https://github.com/hnzl62/xen-to-pve/blob/master/xcp-xe_1.3.2-5ubuntu1_amd64.deb)
+	•	Download xcp-xe_1.3.2-5ubuntu1_amd64.deb
 
 Once downloaded, install it on the machine where you are running the script using:
 
-```bash
 sudo dpkg -i xcp-xe_1.3.2-5ubuntu1_amd64.deb
 
 2. stunnel Installation
@@ -64,11 +61,3 @@ This version of the script has been specifically modified to:
 License
 
 This script is licensed under the GPL, in accordance with the original author’s license. See the LICENSE file for details.
-
----
-
-### Key Points in the `README.md`:
-1. **Emphasizes NFS Modifications**: The README clearly highlights that the script is modified for NFS storage use in Proxmox.
-2. **Prerequisites**: Links to the `xcp-xe` download from the GitHub repository and provides the command to install `stunnel`.
-3. **Usage Instructions**: Includes detailed instructions on how to use the script, including an example.
-4. **License**: Mentions the script's GPL license, assuming the original script was licensed under GPL. You should include a `LICENSE` file in your repository with the full text of the GPL.
