@@ -8,7 +8,8 @@
 #
 # Requirements: - XCP-XE: http://mirror.yy.duowan.com:63782/ubuntu/pool/universe/x/xen-api/xcp-xe_1.3.2-5ubuntu1_amd64.deb
 #               - stunnel
-#
+# Modified by Jan Andel in 2024 for XCP 8.2 and PVE 8.2
+# this version is intended for use with NFS Storage
 
 XS_HOST="$3"
 XS_PORT="$4"
